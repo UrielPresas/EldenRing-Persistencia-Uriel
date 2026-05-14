@@ -8,68 +8,37 @@ import java.net.http.HttpResponse;
 public class EldenRingApiClient {
 
     private static final String BASE_URL =
-            "https://docs.eldenring.fanapis.com/docs";
+            "https://eldenring.fanapis.com/api";
+
+    private static String getJson(String endpoint) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(endpoint))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return response.body();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String getWeaponsJson() {
-
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/weapons"))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return response.body();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return getJson("https://eldenring.fanapis.com/api/weapons");
     }
 
-    public static String getBossesJson() {
-
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/bosses"))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return response.body();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static String getWeaponsBosses() {
+        return getJson("https://eldenring.fanapis.com/api/bosses");
     }
 
-    public static String getAshesJson() {
-
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/ashes"))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response =
-                    client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            return response.body();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static String getWeaponsAshes() {
+        return getJson("https://eldenring.fanapis.com/api/ashes");
     }
 }
