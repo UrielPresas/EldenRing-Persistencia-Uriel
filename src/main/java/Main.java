@@ -2,6 +2,7 @@ import API.EldenRingApiClient;
 import DAO.Connexions.ConexioFactory;
 import java.sql.Connection;
 import java.util.Scanner;
+
 //import Vista.Vista;
 
 public class Main {
@@ -19,6 +20,7 @@ public class Main {
             //Vista.vistaMainMenu(conn);
             String json = EldenRingApiClient.getWeaponsJson();
             System.out.println(json);
+
         } else {
             System.out.println("Error en la connexió");
         }

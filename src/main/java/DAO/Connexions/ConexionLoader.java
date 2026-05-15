@@ -1,7 +1,7 @@
 package DAO.Connexions;
 
+import java.io.InputStream;
 import java.util.Properties;
-import java.io.FileInputStream;
 
 public class ConexionLoader {
 
@@ -9,8 +9,11 @@ public class ConexionLoader {
         Properties props = new Properties();
 
         try {
-            FileInputStream fis = new FileInputStream("src/configBD/dataBase.properties");
-            props.load(fis);
+            InputStream is = ConexionLoader.class
+                    .getClassLoader()
+                    .getResourceAsStream("configBD/dataBase.properties");
+
+            props.load(is);
 
         } catch (Exception e) {
             e.printStackTrace();
