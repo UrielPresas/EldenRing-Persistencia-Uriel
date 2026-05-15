@@ -8,7 +8,7 @@ public class Weapon {
     private String img;
     private String description;
     private String category;
-    private float weight;
+    private double weight;
 
     private List<WeaponAttack> attacks;
     private List<WeaponDefence> defences;
@@ -36,7 +36,7 @@ public class Weapon {
         return category;
     }
 
-    public float getWeight() {
+    public double getWeight() {
         return weight;
     }
 
@@ -60,7 +60,7 @@ public class Weapon {
         this.category = category;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

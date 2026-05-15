@@ -1,4 +1,7 @@
 import API.EldenRingApiClient;
+import API.DTO.WeaponResponse;
+import API.WeaponImporter;
+import com.google.gson.Gson;
 import DAO.Connexions.ConexioFactory;
 import java.sql.Connection;
 import java.util.Scanner;
@@ -19,7 +22,14 @@ public class Main {
             System.out.println("Connexió correcta");
             //Vista.vistaMainMenu(conn);
             String json = EldenRingApiClient.getWeaponsJson();
-            System.out.println(json);
+            Gson gson = new Gson();
+            WeaponResponse response =
+                    gson.fromJson(json, WeaponResponse.class);
+
+            System.out.println(response.getData().size());
+            System.out.println(response.getData().get(70).getName());
+
+            WeaponImporter.importar();
 
         } else {
             System.out.println("Error en la connexió");
