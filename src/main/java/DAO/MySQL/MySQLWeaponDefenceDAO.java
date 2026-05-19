@@ -1,17 +1,42 @@
 package DAO.MySQL;
 
+import DAO.Connexions.ConexioFactory;
 import DAO.WeaponDefenceDAO;
+import Model.WeaponDefence;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MySQLWeaponDefenceDAO implements WeaponDefenceDAO {
-    @Override
-    public void inserir(WeaponDefenceDAO obj) {
 
+    @Override
+    public void inserir(WeaponDefence obj) {
+        String sql = """
+                INSERT INTO weapons_defences
+                (weapon_id, type, amount)
+                VALUES (?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                amount = VALUES(amount)
+                """;
+
+        try(Connection conn = ConexioFactory.getConnection("mysql");
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, obj.getWeapon_id());
+            ps.setString(2, obj.getType());
+            ps.setInt(3, obj.getAmount());
+
+            ps.executeUpdate();
+
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void modificar(WeaponDefenceDAO obj) {
+    public void modificar(WeaponDefence obj) {
 
     }
 
@@ -21,12 +46,12 @@ public class MySQLWeaponDefenceDAO implements WeaponDefenceDAO {
     }
 
     @Override
-    public WeaponDefenceDAO obtenir(Integer integer) {
+    public WeaponDefence obtenir(Integer integer) {
         return null;
     }
 
     @Override
-    public List<WeaponDefenceDAO> obtenirTots() {
+    public List<WeaponDefence> obtenirTots() {
         return List.of();
     }
 }

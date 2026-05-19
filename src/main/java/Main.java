@@ -26,8 +26,8 @@ public class Main {
             WeaponResponse response =
                     gson.fromJson(json, WeaponResponse.class);
 
-            System.out.println(response.getData().size());
-            System.out.println(response.getData().get(70).getName());
+            //System.out.println(response.getData().size());
+            //System.out.println(response.getData().get(70).getName());
 
             WeaponImporter.importar();
 

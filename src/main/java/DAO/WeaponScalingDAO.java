@@ -1,4 +1,6 @@
 package DAO;
 
-public interface WeaponScalingDAO extends DAO<WeaponScalingDAO, Integer>{
+import Model.WeaponScaling;
+
+public interface WeaponScalingDAO extends DAO<WeaponScaling, Integer>{
 }

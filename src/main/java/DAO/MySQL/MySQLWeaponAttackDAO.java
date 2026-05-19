@@ -15,10 +15,12 @@ public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
     public void inserir(WeaponAttack obj) {
 
         String sql = """
-        INSERT INTO weapons_attacks
-        (weapon_id, type, amount)
-        VALUES (?, ?, ?)
-        """;
+            INSERT INTO weapons_attacks
+            (weapon_id, type, amount)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+            amount = VALUES(amount)
+            """;
 
         try(Connection conn = ConexioFactory.getConnection("mysql");
             PreparedStatement ps = conn.prepareStatement(sql)) {

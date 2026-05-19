@@ -2,12 +2,9 @@ package API;
 
 import API.DTO.WeaponDTO;
 import API.DTO.WeaponResponse;
-import DAO.MySQL.MySQLWeaponAttackDAO;
-import DAO.MySQL.MySQLWeaponDAO;
-import DAO.WeaponAttackDAO;
-import DAO.WeaponDAO;
-import Model.Weapon;
-import Model.WeaponAttack;
+import DAO.*;
+import DAO.MySQL.*;
+import Model.*;
 import com.google.gson.Gson;
 
 public class WeaponImporter {
@@ -35,9 +32,9 @@ public class WeaponImporter {
             weaponDAO.inserir(weapon);
 
             importarAttacks(dto);
-            //importarDefences(dto);
-            //importarScalings(dto);
-            //importarRequirements(dto);
+            importarDefences(dto);
+            importarScalings(dto);
+            importarRequirements(dto);
         }
 
         System.out.println("Importació completada");
@@ -74,13 +71,48 @@ public class WeaponImporter {
 
     private static void importarDefences(WeaponDTO dto){
 
+        WeaponDefenceDAO defenceDAO = new MySQLWeaponDefenceDAO();
+
+        for(var defenceDTO : dto.getDefence()){
+
+            WeaponDefence defence = new WeaponDefence();
+
+            defence.setWeapon_id(dto.getId());
+            defence.setType(defenceDTO.getName());
+            defence.setAmount(defenceDTO.getAmount());
+
+            defenceDAO.inserir(defence);
+        }
     }
 
     private static void importarScalings(WeaponDTO dto){
+        WeaponScalingDAO scalingDAO = new MySQLWeaponScalingDAO();
 
+        for(var scalingDTO : dto.getScalesWith()){
+
+            WeaponScaling scaling = new WeaponScaling();
+
+            scaling.setWeapon_id(dto.getId());
+            scaling.setAttribute(scalingDTO.getName());
+            scaling.setScaling(scalingDTO.getScaling());
+
+            scalingDAO.inserir(scaling);
+        }
     }
 
     private static void importarRequirements(WeaponDTO dto){
 
+        WeaponRequirementDAO requirementDAO = new MySQLWeaponRequirementDAO();
+
+        for(var requirementDTO : dto.getRequiredAttributes()){
+
+            WeaponRequirement requirement = new WeaponRequirement();
+
+            requirement.setWeapon_id(dto.getId());
+            requirement.setAttribute(requirementDTO.getName());
+            requirement.setAmount(requirementDTO.getAmount());
+
+            requirementDAO.inserir(requirement);
+        }
     }
 }
