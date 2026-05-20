@@ -34,11 +34,11 @@ public class EldenRingApiClient {
         return getJson("https://eldenring.fanapis.com/api/weapons?limit=100");
     }
 
-    public static String getWeaponsBosses() {
+    public static String getBossesJson() {
         return getJson("https://eldenring.fanapis.com/api/bosses?limit=100");
     }
 
-    public static String getWeaponsAshes() {
+    public static String getAshesJson() {
         return getJson("https://eldenring.fanapis.com/api/ashes?limit=100");
     }
 }

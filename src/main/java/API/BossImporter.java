@@ -14,7 +14,7 @@ public class BossImporter {
 
     public static void importar(){
 
-        String json = EldenRingApiClient.getWeaponsBosses();
+        String json = EldenRingApiClient.getBossesJson();
 
         if (json == null) {
             System.out.println("Error obtenint JSON");
