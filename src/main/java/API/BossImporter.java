@@ -10,9 +10,11 @@ import Model.Boss;
 import Model.BossDrop;
 import com.google.gson.Gson;
 
+import java.sql.Connection;
+
 public class BossImporter {
 
-    public static void importar(){
+    public static void importar(Connection conn){
 
         String json = EldenRingApiClient.getBossesJson();
 
@@ -32,9 +34,9 @@ public class BossImporter {
 
             Boss boss = convertirDTO(dto);
 
-            bossDAO.inserir(boss);
+            bossDAO.inserir(conn, boss);
 
-            importarDrops(dto);
+            importarDrops(conn, dto);
 
         }
 
@@ -55,7 +57,7 @@ public class BossImporter {
         return boss;
     }
 
-    private static void importarDrops(BossDTO dto){
+    private static void importarDrops(Connection conn, BossDTO dto){
 
         BossDropDAO dropDAO = new MySQLBossDropDAO();
 
@@ -70,7 +72,7 @@ public class BossImporter {
             bossDrop.setBoss_id(dto.getId());
             bossDrop.setDrop_name(drop);
 
-            dropDAO.inserir(bossDrop);
+            dropDAO.inserir(conn, bossDrop);
         }
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MySQLBossDropDAO implements BossDropDAO {
     @Override
-    public void inserir(BossDrop obj) {
+    public void inserir(Connection conn, BossDrop obj) {
         String sql = """
                 INSERT INTO bosses_drops
                 (boss_id, drop_name)
@@ -20,8 +20,7 @@ public class MySQLBossDropDAO implements BossDropDAO {
                 drop_name = VALUES(drop_name)
                 """;
 
-        try(Connection conn = ConexioFactory.getConnection("mysql");
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, obj.getBoss_id());
             ps.setString(2, obj.getDrop_name());
@@ -33,17 +32,17 @@ public class MySQLBossDropDAO implements BossDropDAO {
     }
 
     @Override
-    public void modificar(BossDrop obj) {
+    public void modificar(Connection conn, BossDrop obj) {
 
     }
 
     @Override
-    public void eliminar(Integer integer) {
+    public void eliminar(Connection conn, BossDrop obj) {
 
     }
 
     @Override
-    public BossDrop obtenir(Integer integer) {
+    public BossDrop obtenir(Connection conn, BossDrop obj) {
         return null;
     }
 
@@ -51,4 +50,6 @@ public class MySQLBossDropDAO implements BossDropDAO {
     public List<BossDrop> obtenirTots() {
         return List.of();
     }
+
+
 }

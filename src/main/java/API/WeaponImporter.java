@@ -7,9 +7,11 @@ import DAO.MySQL.*;
 import Model.*;
 import com.google.gson.Gson;
 
+import java.sql.Connection;
+
 public class WeaponImporter {
 
-    public static void importar() {
+    public static void importar(Connection conn) {
 
         String json = EldenRingApiClient.getWeaponsJson();
 
@@ -29,12 +31,12 @@ public class WeaponImporter {
 
             Weapon weapon = convertirDTO(dto);
 
-            weaponDAO.inserir(weapon);
+            weaponDAO.inserir(conn, weapon);
 
-            importarAttacks(dto);
-            importarDefences(dto);
-            importarScalings(dto);
-            importarRequirements(dto);
+            importarAttacks(conn, dto);
+            importarDefences(conn, dto);
+            importarScalings(conn, dto);
+            importarRequirements(conn, dto);
         }
 
         System.out.println("Importació completada");
@@ -53,7 +55,7 @@ public class WeaponImporter {
         return weapon;
     }
 
-    private static void importarAttacks(WeaponDTO dto){
+    private static void importarAttacks(Connection conn, WeaponDTO dto){
 
         WeaponAttackDAO attackDAO = new MySQLWeaponAttackDAO();
 
@@ -65,11 +67,11 @@ public class WeaponImporter {
             attack.setType(attackDTO.getName());
             attack.setAmount(attackDTO.getAmount());
 
-            attackDAO.inserir(attack);
+            attackDAO.inserir(conn, attack);
         }
     }
 
-    private static void importarDefences(WeaponDTO dto){
+    private static void importarDefences(Connection conn, WeaponDTO dto){
 
         WeaponDefenceDAO defenceDAO = new MySQLWeaponDefenceDAO();
 
@@ -81,11 +83,11 @@ public class WeaponImporter {
             defence.setType(defenceDTO.getName());
             defence.setAmount(defenceDTO.getAmount());
 
-            defenceDAO.inserir(defence);
+            defenceDAO.inserir(conn, defence);
         }
     }
 
-    private static void importarScalings(WeaponDTO dto){
+    private static void importarScalings(Connection conn, WeaponDTO dto){
         WeaponScalingDAO scalingDAO = new MySQLWeaponScalingDAO();
 
         for(var scalingDTO : dto.getScalesWith()){
@@ -96,11 +98,11 @@ public class WeaponImporter {
             scaling.setAttribute(scalingDTO.getName());
             scaling.setScaling(scalingDTO.getScaling());
 
-            scalingDAO.inserir(scaling);
+            scalingDAO.inserir(conn, scaling);
         }
     }
 
-    private static void importarRequirements(WeaponDTO dto){
+    private static void importarRequirements(Connection conn, WeaponDTO dto){
 
         WeaponRequirementDAO requirementDAO = new MySQLWeaponRequirementDAO();
 
@@ -112,7 +114,7 @@ public class WeaponImporter {
             requirement.setAttribute(requirementDTO.getName());
             requirement.setAmount(requirementDTO.getAmount());
 
-            requirementDAO.inserir(requirement);
+            requirementDAO.inserir(conn, requirement);
         }
     }
 }

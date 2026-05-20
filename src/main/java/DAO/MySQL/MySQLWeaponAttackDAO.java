@@ -12,7 +12,7 @@ import java.util.List;
 public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
 
     @Override
-    public void inserir(WeaponAttack obj) {
+    public void inserir(Connection conn, WeaponAttack obj) {
 
         String sql = """
             INSERT INTO weapons_attacks
@@ -22,8 +22,7 @@ public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
             amount = VALUES(amount)
             """;
 
-        try(Connection conn = ConexioFactory.getConnection("mysql");
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, obj.getWeapon_id());
             ps.setString(2, obj.getType());
@@ -37,17 +36,17 @@ public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
     }
 
     @Override
-    public void modificar(WeaponAttack obj) {
+    public void modificar(Connection conn, WeaponAttack obj) {
 
     }
 
     @Override
-    public void eliminar(Integer integer) {
+    public void eliminar(Connection conn, WeaponAttack obj) {
 
     }
 
     @Override
-    public WeaponAttack obtenir(Integer integer) {
+    public WeaponAttack obtenir(Connection conn, WeaponAttack obj) {
         return null;
     }
 
@@ -55,4 +54,6 @@ public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
     public List<WeaponAttack> obtenirTots() {
         return List.of();
     }
+
+
 }

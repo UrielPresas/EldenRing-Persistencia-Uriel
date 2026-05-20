@@ -7,9 +7,11 @@ import DAO.MySQL.MySQLAshOfWarDAO;
 import Model.AshOfWar;
 import com.google.gson.Gson;
 
+import java.sql.Connection;
+
 public class AshImporter {
 
-    public static void importar(){
+    public static void importar(Connection conn){
 
         String json =
                 EldenRingApiClient.getAshesJson();
@@ -31,7 +33,7 @@ public class AshImporter {
 
             AshOfWar ash = convertirDTO(dto);
 
-            ashDAO.inserir(ash);
+            ashDAO.inserir(conn, ash);
         }
 
         System.out.println("Ashes importades");

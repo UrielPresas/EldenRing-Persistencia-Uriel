@@ -6,12 +6,13 @@ import API.WeaponImporter;
 import com.google.gson.Gson;
 import DAO.Connexions.ConexioFactory;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 //import Vista.Vista;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
         Scanner sc = new Scanner(System.in);
 
@@ -19,21 +20,28 @@ public class Main {
         String opcio = sc.nextLine();
 
         Connection conn = ConexioFactory.getConnection(opcio);
+        try {
+            conn.setAutoCommit(false);
+
+            WeaponImporter.importar(conn);
+            BossImporter.importar(conn);
+            AshImporter.importar(conn);
+
+            conn.commit();
+
+            System.out.println("Importació completada");
+        } catch (Exception e) {
+            conn.rollback();
+            System.out.println("Rollback executat");
+            e.printStackTrace();
+        }
 
         if(conn != null){
             System.out.println("Connexió correcta");
-            //Vista.vistaMainMenu(conn);
             String json = EldenRingApiClient.getWeaponsJson();
             Gson gson = new Gson();
             WeaponResponse response =
                     gson.fromJson(json, WeaponResponse.class);
-
-            //System.out.println(response.getData().size());
-            //System.out.println(response.getData().get(70).getName());
-
-            //WeaponImporter.importar();
-            //BossImporter.importar();
-            AshImporter.importar();
 
         } else {
             System.out.println("Error en la connexió");

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MySQLBossDAO implements BossDAO {
     @Override
-    public void inserir(Boss obj) {
+    public void inserir(Connection conn, Boss obj) {
         String sql = """
                 INSERT INTO bosses
                 (id_boss, name, img, region, description, location, health_points)
@@ -24,8 +24,7 @@ public class MySQLBossDAO implements BossDAO {
                     health_points = VALUES (health_points)
                 """;
 
-        try (Connection conn = ConexioFactory.getConnection("mysql");
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, obj.getId_boss());
             ps.setString(2, obj.getName());
@@ -41,19 +40,18 @@ public class MySQLBossDAO implements BossDAO {
         }
     }
 
-
     @Override
-    public void modificar(Boss obj) {
+    public void modificar(Connection conn, Boss obj) {
 
     }
 
     @Override
-    public void eliminar(String s) {
+    public void eliminar(Connection conn, Boss obj) {
 
     }
 
     @Override
-    public Boss obtenir(String s) {
+    public Boss obtenir(Connection conn, Boss obj) {
         return null;
     }
 
@@ -61,4 +59,6 @@ public class MySQLBossDAO implements BossDAO {
     public List<Boss> obtenirTots() {
         return List.of();
     }
+
+
 }

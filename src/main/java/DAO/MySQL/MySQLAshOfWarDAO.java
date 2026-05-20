@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MySQLAshOfWarDAO implements AshOfWarDAO {
     @Override
-    public void inserir(AshOfWar obj) {
+    public void inserir(Connection conn, AshOfWar obj) {
         String sql = """
                 INSERT INTO ashes_of_war
                 (id_ash, name, img, description, affinity, skill)
@@ -23,9 +23,7 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
                     skill = VALUES(skill)
                     """;
 
-        try(Connection conn = ConexioFactory.getConnection("mysql");
-
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, obj.getId_ash());
             ps.setString(2, obj.getName());
@@ -42,17 +40,17 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
     }
 
     @Override
-    public void modificar(AshOfWar obj) {
+    public void modificar(Connection conn, AshOfWar obj) {
 
     }
 
     @Override
-    public void eliminar(String s) {
+    public void eliminar(Connection conn, AshOfWar obj) {
 
     }
 
     @Override
-    public AshOfWar obtenir(String s) {
+    public AshOfWar obtenir(Connection conn, AshOfWar obj) {
         return null;
     }
 
@@ -60,4 +58,6 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
     public List<AshOfWar> obtenirTots() {
         return List.of();
     }
+
+
 }
