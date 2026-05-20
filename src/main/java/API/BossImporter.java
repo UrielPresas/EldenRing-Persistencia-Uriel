@@ -7,6 +7,7 @@ import DAO.BossDropDAO;
 import DAO.MySQL.MySQLBossDAO;
 import DAO.MySQL.MySQLBossDropDAO;
 import Model.Boss;
+import Model.BossDrop;
 import com.google.gson.Gson;
 
 public class BossImporter {
@@ -37,7 +38,7 @@ public class BossImporter {
 
         }
 
-        System.out.println("Importació completada");
+        System.out.println("Bosses Importats");
     }
 
     private static Boss convertirDTO(BossDTO dto){
@@ -58,8 +59,18 @@ public class BossImporter {
 
         BossDropDAO dropDAO = new MySQLBossDropDAO();
 
-        for(var dropDTO : dto.getDrops()){
+        if(dto.getDrops() == null){
+            return;
+        }
 
+        for(String drop : dto.getDrops()){
+
+            BossDrop bossDrop = new BossDrop();
+
+            bossDrop.setBoss_id(dto.getId());
+            bossDrop.setDrop_name(drop);
+
+            dropDAO.inserir(bossDrop);
         }
     }
 }

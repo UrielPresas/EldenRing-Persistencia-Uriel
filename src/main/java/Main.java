@@ -1,3 +1,4 @@
+import API.BossImporter;
 import API.EldenRingApiClient;
 import API.DTO.WeaponResponse;
 import API.WeaponImporter;
@@ -29,7 +30,8 @@ public class Main {
             //System.out.println(response.getData().size());
             //System.out.println(response.getData().get(70).getName());
 
-            WeaponImporter.importar();
+            //WeaponImporter.importar();
+            BossImporter.importar();
 
         } else {
             System.out.println("Error en la connexió");
