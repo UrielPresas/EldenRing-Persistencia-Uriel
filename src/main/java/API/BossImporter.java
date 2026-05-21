@@ -14,14 +14,7 @@ import java.sql.Connection;
 
 public class BossImporter {
 
-    public static void importar(Connection conn){
-
-        String json = EldenRingApiClient.getBossesJson();
-
-        if (json == null) {
-            System.out.println("Error obtenint JSON");
-            return;
-        }
+    public static void importar(Connection conn, String json){
 
         Gson gson = new Gson();
 

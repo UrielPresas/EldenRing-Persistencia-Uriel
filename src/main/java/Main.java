@@ -1,16 +1,18 @@
-import API.AshImporter;
-import API.BossImporter;
-import API.WeaponImporter;
+import API.*;
 import DAO.Connexions.ConexioFactory;
 import Vista.AshView;
 import Vista.BossView;
+import Vista.MenuController;
 import Vista.WeaponView;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -20,7 +22,7 @@ public class Main {
 
         Connection conn = ConexioFactory.getConnection(opcio);
 
-        if (conn == null) {
+        if(conn == null){
             System.out.println("Error en la connexió");
             return;
         }
@@ -28,31 +30,25 @@ public class Main {
         try {
             conn.setAutoCommit(false);
 
-            WeaponImporter.importar(conn);
-            BossImporter.importar(conn);
-            AshImporter.importar(conn);
+            MenuController.run(conn);
 
             conn.commit();
 
-            System.out.println("Importació completada");
+        } catch(Exception e){
 
-
-
-
-
-        } catch (Exception e) {
             try {
                 conn.rollback();
-            } catch (SQLException ex) {
+            } catch(Exception ex){
                 ex.printStackTrace();
             }
 
-            System.out.println("Rollback executat");
             e.printStackTrace();
+
         } finally {
+
             try {
                 conn.close();
-            } catch (SQLException e) {
+            } catch(Exception e){
                 e.printStackTrace();
             }
         }
