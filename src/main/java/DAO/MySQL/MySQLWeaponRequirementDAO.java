@@ -1,12 +1,15 @@
 package DAO.MySQL;
 
+import API.DTO.WeaponRequirementDTO;
 import DAO.Connexions.ConexioFactory;
 import DAO.WeaponRequirementDAO;
 import Model.WeaponRequirement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLWeaponRequirementDAO implements WeaponRequirementDAO {
@@ -54,4 +57,51 @@ public class MySQLWeaponRequirementDAO implements WeaponRequirementDAO {
     }
 
 
+    @Override
+    public List<WeaponRequirement> findByWeaponId(Connection conn, String id) {
+
+        String sql = """
+            SELECT *
+                FROM weapons_requirements
+            WHERE weapon_id = ?
+            """;
+
+        List<WeaponRequirement> requirements = new ArrayList<>();
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                WeaponRequirement requirement= new WeaponRequirement();
+
+                requirement.setId_requirement(
+                        rs.getInt("id_requirement")
+                );
+
+                requirement.setWeapon_id(
+                        rs.getString("weapon_id")
+                );
+
+                requirement.setAttribute(
+                        rs.getString("attribute")
+                );
+
+                requirement.setAmount(
+                        rs.getInt("amount")
+                );
+
+                requirements.add(requirement);
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return requirements;
+    }
 }

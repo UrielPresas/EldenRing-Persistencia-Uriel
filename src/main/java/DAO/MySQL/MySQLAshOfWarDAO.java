@@ -3,9 +3,12 @@ package DAO.MySQL;
 import DAO.AshOfWarDAO;
 import DAO.Connexions.ConexioFactory;
 import Model.AshOfWar;
+import Model.Weapon;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLAshOfWarDAO implements AshOfWarDAO {
@@ -56,7 +59,36 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
 
     @Override
     public List<AshOfWar> obtenirTots() {
-        return List.of();
+        String sql = """
+                SELECT *
+                    FROM ashes_of_war
+                """;
+
+        List<AshOfWar> aList = new ArrayList<>();
+
+        try(Connection conn = ConexioFactory.getConnection("mysql");
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while(rs.next()){
+
+                AshOfWar a = new AshOfWar();
+
+                a.setId_ash(rs.getString("id_ash"));
+                a.setName(rs.getString("name"));
+                a.setId_ash(rs.getString("img"));
+                a.setDescription(rs.getString("description"));
+                a.setAffinity(rs.getString("affinity"));
+                a.setSkill(rs.getString("skill"));
+
+                aList.add(a);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return aList;
     }
 
 

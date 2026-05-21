@@ -6,7 +6,9 @@ import Model.WeaponScaling;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLWeaponScalingDAO implements WeaponScalingDAO {
@@ -55,4 +57,48 @@ public class MySQLWeaponScalingDAO implements WeaponScalingDAO {
     }
 
 
+    @Override
+    public List<WeaponScaling> findByWeaponId(Connection conn, String id) {
+
+        String sql = """
+            SELECT *
+                FROM weapons_scalings
+            WHERE weapon_id = ?
+            """;
+
+        List<WeaponScaling> scalings = new ArrayList<>();
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                WeaponScaling scaling = new WeaponScaling();
+
+                scaling.setId_scaling(
+                        rs.getInt("id_scaling")
+                );
+
+                scaling.setWeapon_id(
+                        rs.getString("weapon_id")
+                );
+
+                scaling.setAttribute(
+                        rs.getString("attribute")
+                );
+
+                scaling.setScaling(
+                        rs.getString("scaling")
+                );
+
+                scalings.add(scaling);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return scalings;
+    }
 }

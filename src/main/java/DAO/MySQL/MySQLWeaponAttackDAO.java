@@ -1,12 +1,13 @@
 package DAO.MySQL;
 
-import DAO.Connexions.ConexioFactory;
 import DAO.WeaponAttackDAO;
 import Model.WeaponAttack;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
@@ -56,4 +57,50 @@ public class MySQLWeaponAttackDAO implements WeaponAttackDAO {
     }
 
 
+    @Override
+    public List<WeaponAttack> findByWeaponId(Connection conn, String id) {
+
+        String sql = """
+            SELECT *
+                FROM weapons_attacks
+            WHERE weapon_id = ?
+            """;
+
+        List<WeaponAttack> attacks = new ArrayList<>();
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                WeaponAttack attack = new WeaponAttack();
+
+                attack.setId_attack(
+                        rs.getInt("id_attack")
+                );
+
+                attack.setWeapon_id(
+                        rs.getString("weapon_id")
+                );
+
+                attack.setType(
+                        rs.getString("type")
+                );
+
+                attack.setAmount(
+                        rs.getInt("amount")
+                );
+
+                attacks.add(attack);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return attacks;
+    }
 }

@@ -7,6 +7,8 @@ import Model.Weapon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLWeaponDAO implements WeaponDAO {
@@ -55,8 +57,90 @@ public class MySQLWeaponDAO implements WeaponDAO {
     }
 
     @Override
+    public Weapon obtenir(Connection conn, String id) {
+        String sql = """
+            SELECT *
+                FROM weapons
+            WHERE id_weapon = ?
+            """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                Weapon weapon = new Weapon();
+
+                weapon.setId_weapon(
+                        rs.getString("id_weapon")
+                );
+
+                weapon.setName(
+                        rs.getString("name")
+                );
+
+                weapon.setImg(
+                        rs.getString("img")
+                );
+
+                weapon.setDescription(
+                        rs.getString("description")
+                );
+
+                weapon.setCategory(
+                        rs.getString("category")
+                );
+
+                weapon.setWeight(
+                        rs.getDouble("weight")
+                );
+
+                return weapon;
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Weapon> obtenirTots() {
-        return List.of();
+
+        String sql = """
+                SELECT *
+                    FROM weapons
+                """;
+
+        List<Weapon> wList = new ArrayList<>();
+
+        try(Connection conn = ConexioFactory.getConnection("mysql");
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while(rs.next()){
+
+                Weapon w = new Weapon();
+
+                w.setId_weapon(rs.getString("id_weapon"));
+                w.setName(rs.getString("name"));
+                w.setImg(rs.getString("img"));
+                w.setDescription(rs.getString("description"));
+                w.setCategory(rs.getString("category"));
+                w.setWeight(rs.getDouble("weight"));
+
+                wList.add(w);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return wList;
     }
 
 }

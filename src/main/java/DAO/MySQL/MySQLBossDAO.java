@@ -6,6 +6,8 @@ import Model.Boss;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLBossDAO implements BossDAO {
@@ -57,7 +59,35 @@ public class MySQLBossDAO implements BossDAO {
 
     @Override
     public List<Boss> obtenirTots() {
-        return List.of();
+        String sql = """
+                SELECT *
+                    FROM bosses
+                """;
+
+        List<Boss> bList = new ArrayList<>();
+
+        try(Connection conn = ConexioFactory.getConnection("mysql");
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()){
+
+                Boss b = new Boss();
+
+                b.setId_boss(rs.getString("id_boss"));
+                b.setName(rs.getString("name"));
+                b.setImg(rs.getString("img"));
+                b.setRegion(rs.getString("region"));
+                b.setDescription(rs.getString("description"));
+                b.setLocation(rs.getString("location"));
+                b.setHealth_points(rs.getString("health_points"));
+
+                bList.add(b);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return bList;
     }
 
 
