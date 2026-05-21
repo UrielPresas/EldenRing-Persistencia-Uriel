@@ -6,7 +6,9 @@ import Model.BossDrop;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLBossDropDAO implements BossDropDAO {
@@ -52,4 +54,47 @@ public class MySQLBossDropDAO implements BossDropDAO {
     }
 
 
+    @Override
+    public List<BossDrop> findByBossId(Connection conn, String id) {
+
+        String sql = """
+            SELECT *
+                FROM bosses_drops
+            WHERE boss_id = ?
+        """;
+
+        List<BossDrop> drops = new ArrayList<>();
+
+        try(PreparedStatement ps =
+                    conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                BossDrop drop = new BossDrop();
+
+                drop.setId_drop(
+                        rs.getInt("id_drop")
+                );
+
+                drop.setBoss_id(
+                        rs.getString("boss_id")
+                );
+
+                drop.setDrop_name(
+                        rs.getString("drop_name")
+                );
+
+                drops.add(drop);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return drops;
+    }
 }

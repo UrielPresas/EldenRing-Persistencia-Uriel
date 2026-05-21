@@ -31,12 +31,35 @@ public class WeaponView {
         }
     }
 
+    public static void mostrarAllWeapons(Connection conn){
+        WeaponDAO dao = new MySQLWeaponDAO();
+
+        List<Weapon> weapons =
+                dao.obtenirTots(conn);
+
+        System.out.println("=== WEAPONS ===");
+
+        for(Weapon w : weapons){
+
+            System.out.println(
+                    w.getId_weapon()
+                            + " | " +
+                            w.getName()
+            );
+        }
+    }
+
     public static void mostrarWeapon(Connection conn, String id){
 
         WeaponService service = new WeaponService();
 
         WeaponDetailDTO dto =
                 service.obtenirWeaponComplet(conn, id);
+
+        if(dto.getWeapon() == null){
+            System.out.println("Weapon no trobada");
+            return;
+        }
 
         System.out.println("=== WEAPON ===");
 

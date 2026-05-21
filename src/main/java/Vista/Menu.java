@@ -18,4 +18,34 @@ public class Menu {
         );
         return opcio;
     }
+
+    public static void dbData(){
+        WeaponView.llistarWeapons();
+        BossView.llistarBosses();
+        AshView.llistarAshes();
+    }
 }
+
+//            WeaponView.mostrarAllWeapons(conn);
+//
+//            System.out.println("\nEscriu ID weapon:");
+//
+//            String id = sc.nextLine();
+//
+//            WeaponView.mostrarWeapon(conn, id);
+
+//            BossView.mostrarAllBosses(conn);
+//
+//            System.out.println("\nIntrodueix ID:");
+//
+//            String id = sc.nextLine();
+//
+//            BossView.mostrarBoss(conn, id);
+
+//            AshView.mostrarAllAshes(conn);
+//
+//            System.out.println("\nIntrodueix ID:");
+//
+//            String id = sc.nextLine();
+//
+//            AshView.mostrarAsh(conn, id);

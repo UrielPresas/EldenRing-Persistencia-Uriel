@@ -58,6 +58,7 @@ public class MySQLWeaponDAO implements WeaponDAO {
 
     @Override
     public Weapon obtenir(Connection conn, String id) {
+
         String sql = """
             SELECT *
                 FROM weapons
@@ -106,6 +107,44 @@ public class MySQLWeaponDAO implements WeaponDAO {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Weapon> obtenirTots(Connection conn) {
+
+        String sql = """
+            SELECT *
+                FROM weapons
+            ORDER BY name
+        """;
+
+        List<Weapon> weapons = new ArrayList<>();
+
+        try(PreparedStatement ps =
+                    conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                Weapon w = new Weapon();
+
+                w.setId_weapon(
+                        rs.getString("id_weapon")
+                );
+
+                w.setName(
+                        rs.getString("name")
+                );
+
+                weapons.add(w);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return weapons;
     }
 
     @Override

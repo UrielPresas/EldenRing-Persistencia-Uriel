@@ -92,4 +92,99 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
     }
 
 
+    @Override
+    public AshOfWar obtenir(Connection conn, String id) {
+
+        String sql = """
+            SELECT *
+                FROM ashes_of_war
+            WHERE id_ash = ?
+        """;
+
+        try(PreparedStatement ps =
+                    conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                AshOfWar ash = new AshOfWar();
+
+                ash.setId_ash(
+                        rs.getString("id_ash")
+                );
+
+                ash.setName(
+                        rs.getString("name")
+                );
+
+                ash.setImg(
+                        rs.getString("img")
+                );
+
+                ash.setDescription(
+                        rs.getString("description")
+                );
+
+                ash.setAffinity(
+                        rs.getString("affinity")
+                );
+
+                ash.setSkill(
+                        rs.getString("skill")
+                );
+
+                return ash;
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<AshOfWar> obtenirTots(Connection conn) {
+
+        String sql = """
+            SELECT *
+                FROM ashes_of_war
+            ORDER BY name
+        """;
+
+        List<AshOfWar> ashes = new ArrayList<>();
+
+        try(PreparedStatement ps =
+                    conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                AshOfWar ash = new AshOfWar();
+
+                ash.setId_ash(
+                        rs.getString("id_ash")
+                );
+
+                ash.setName(
+                        rs.getString("name")
+                );
+
+                ash.setAffinity(
+                        rs.getString("affinity")
+                );
+
+                ashes.add(ash);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return ashes;
+    }
 }

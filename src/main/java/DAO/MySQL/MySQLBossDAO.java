@@ -90,5 +90,102 @@ public class MySQLBossDAO implements BossDAO {
         return bList;
     }
 
+    @Override
+    public Boss obtenir(Connection conn, String id) {
 
+        String sql = """
+                SELECT *
+                    FROM bosses
+                WHERE id_boss = ?
+                """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                Boss boss = new Boss();
+
+                boss.setId_boss(
+                        rs.getString("id_boss")
+                );
+
+                boss.setName(
+                        rs.getString("name")
+                );
+
+                boss.setImg(
+                        rs.getString("img")
+                );
+
+                boss.setRegion(
+                        rs.getString("region")
+                );
+
+                boss.setDescription(
+                        rs.getString("description")
+                );
+
+                boss.setLocation(
+                        rs.getString("location")
+                );
+
+                boss.setHealth_points(
+                        rs.getString("health_points")
+                );
+
+                return boss;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    @Override
+    public List<Boss> obtenirTots(Connection conn) {
+
+        String sql = """
+            SELECT *
+                FROM bosses
+            ORDER BY name
+        """;
+
+        List<Boss> bosses = new ArrayList<>();
+
+        try(PreparedStatement ps =
+                    conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                Boss boss = new Boss();
+
+                boss.setId_boss(
+                        rs.getString("id_boss")
+                );
+
+                boss.setName(
+                        rs.getString("name")
+                );
+
+                boss.setRegion(
+                        rs.getString("region")
+                );
+
+                bosses.add(boss);
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return bosses;
+    }
 }
