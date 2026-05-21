@@ -54,6 +54,28 @@ public class WeaponView {
             );
         }
 
+        System.out.println("\nDEFENCE:");
+
+        for(var defence : dto.getDefences()){
+
+            System.out.println(
+                    defence.getType() +
+                            ": " +
+                            defence.getAmount()
+            );
+        }
+
+        System.out.println("\nREQUIREMENTS:");
+
+        for(var requirement : dto.getRequirements()){
+
+            System.out.println(
+                    requirement.getAttribute() +
+                            ": " +
+                            requirement.getAmount()
+            );
+        }
+
         System.out.println("\nSCALINGS:");
 
         for(var scaling : dto.getScalings()){
