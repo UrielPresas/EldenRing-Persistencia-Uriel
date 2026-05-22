@@ -18,6 +18,16 @@ public class AshImporter {
         AshResponse response =
                 gson.fromJson(json, AshResponse.class);
 
+        if(response == null ||
+                response.getData() == null){
+
+            System.out.println(
+                    "Error en l'estructura de dades"
+            );
+
+            return;
+        }
+
         AshOfWarDAO ashDAO =
                 new MySQLAshOfWarDAO();
 

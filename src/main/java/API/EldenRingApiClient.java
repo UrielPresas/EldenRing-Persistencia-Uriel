@@ -25,7 +25,7 @@ public class EldenRingApiClient {
             return response.body();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error connectant amb l'API");
             return null;
         }
     }

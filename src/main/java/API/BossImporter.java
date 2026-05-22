@@ -21,6 +21,16 @@ public class BossImporter {
         BossResponse response =
                 gson.fromJson(json, BossResponse.class);
 
+        if(response == null ||
+                response.getData() == null){
+
+            System.out.println(
+                    "Error en l'estructura de dades"
+            );
+
+            return;
+        }
+
         BossDAO bossDAO = new MySQLBossDAO();
 
         for(BossDTO dto : response.getData()){

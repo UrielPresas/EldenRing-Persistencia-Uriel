@@ -18,11 +18,31 @@ public class WeaponImporter {
         WeaponResponse response =
                 gson.fromJson(json, WeaponResponse.class);
 
+        if(response == null ||
+                response.getData() == null){
+
+            System.out.println(
+                    "Error en l'estructura de dades"
+            );
+
+            return;
+        }
+
         WeaponDAO weaponDAO = new MySQLWeaponDAO();
 
         for (WeaponDTO dto : response.getData()) {
 
             Weapon weapon = convertirDTO(dto);
+
+            if(dto.getId() == null ||
+                    dto.getName() == null){
+
+                System.out.println(
+                        "Weapon ignorada: dades incorrectes"
+                );
+
+                continue;
+            }
 
             weaponDAO.inserir(conn, weapon, overwrite);
 
