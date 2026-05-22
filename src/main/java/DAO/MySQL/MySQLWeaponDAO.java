@@ -44,6 +44,32 @@ public class MySQLWeaponDAO implements WeaponDAO {
     @Override
     public void modificar(Connection conn, Weapon obj) {
 
+        String sql = """
+            UPDATE weapons
+                SET name = ?,
+                    img = ?,
+                    description = ?,
+                    category = ?,
+                    weight = ?,
+                    last_update = CURRENT_TIMESTAMP
+            WHERE id_weapon = ?
+            """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getImg());
+            ps.setString(3, obj.getDescription());
+            ps.setString(4, obj.getCategory());
+            ps.setDouble(5, obj.getWeight());
+            ps.setString(6, obj.getId_weapon());
+
+            ps.executeUpdate();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

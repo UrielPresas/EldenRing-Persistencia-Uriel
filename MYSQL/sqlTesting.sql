@@ -56,6 +56,15 @@ ADD CONSTRAINT uq_boss_drop UNIQUE (boss_id, drop_name);
 ALTER TABLE bosses
 MODIFY location VARCHAR(255);
 
+ALTER TABLE bosses
+ADD COLUMN last_update TIMESTAMP;
+
+ALTER TABLE ashes_of_war
+ADD COLUMN last_update TIMESTAMP;
+
+ALTER TABLE weapons
+ADD COLUMN last_update TIMESTAMP;
+
 TRUNCATE TABLE weapons_defences;
 TRUNCATE TABLE weapons_attacks;
 TRUNCATE TABLE weapons_requirements;

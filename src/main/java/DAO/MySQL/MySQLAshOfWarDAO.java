@@ -45,6 +45,30 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
     @Override
     public void modificar(Connection conn, AshOfWar obj) {
 
+        String sql = """
+            UPDATE ashes_of_war
+                SET name = ?
+                    img = ?
+                    description = ?
+                    affinity = ?
+                    skill = ?
+                    last_update = ?
+            """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getImg());
+            ps.setString(3, obj.getDescription());
+            ps.setString(4, obj.getAffinity());
+            ps.setString(5, obj.getSkill());
+            ps.setString(6, obj.getId_ash());
+
+            ps.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

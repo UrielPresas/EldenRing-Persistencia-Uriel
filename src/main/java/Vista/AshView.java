@@ -4,9 +4,12 @@ import API.DTO.AshOfWarDTO;
 import DAO.AshOfWarDAO;
 import DAO.MySQL.MySQLAshOfWarDAO;
 import Model.AshOfWar;
+import Service.AshService;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.NavigableSet;
+import java.util.Scanner;
 
 public class AshView {
 
@@ -79,5 +82,54 @@ public class AshView {
         System.out.println(
                 ash.getDescription()
         );
+    }
+
+    public static void updateAshOfWarFlow(Connection conn, String id){
+
+        AshService service = new AshService();
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("""
+                1. Endpoint
+                2. JSON
+                """
+        );
+
+        int op = sc.nextInt();
+        sc.nextLine();
+
+        AshOfWar external = null;
+
+        if(op == 1){
+            external = service.getAshFromEndpoint(id);
+        }
+        if(op == 2){
+            external = service.getAshFromJson("src/main/resources/ashes.json", id);
+        }
+
+        AshOfWar db = service.getAsh(conn ,id);
+
+        if(db == null){
+            System.out.println("No existeix en la BD");
+        }
+
+        if(external == null){
+            System.out.println("Ash Of War no trobada a la font externa");
+            return;
+        }
+
+        System.out.println("Vols actualitzar (s/n)");
+
+        String opcio = sc.nextLine();
+
+        if(opcio.equalsIgnoreCase("s"))
+        {
+            service.updateAshOfWar(conn, external, db);
+            System.out.println("Actualitzat");
+        }
+        else{
+            System.out.println("Actualitzacio cancelada");
+        }
     }
 }

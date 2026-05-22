@@ -45,6 +45,33 @@ public class MySQLBossDAO implements BossDAO {
     @Override
     public void modificar(Connection conn, Boss obj) {
 
+        String sql = """
+                UPDATE bosses
+                    SET name = ?,
+                        img = ?,
+                        region = ?,
+                        description = ?,
+                        location = ?,
+                        health_points = ?
+                        last_update = CURRENT_TIMESTAMP
+                WHERE id_boss = ?        
+                """;
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getImg());
+            ps.setString(3, obj.getRegion());
+            ps.setString(4, obj.getDescription());
+            ps.setString(5, obj.getLocation());
+            ps.setString(6, obj.getHealth_points());
+            ps.setString(7, obj.getId_boss());
+
+            ps.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import Service.WeaponService;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Scanner;
 
 public class WeaponView {
 
@@ -61,7 +62,7 @@ public class WeaponView {
             return;
         }
 
-        System.out.println("=== WEAPON ===");
+        System.out.println("===== WEAPON =====");
 
         System.out.println(dto.getWeapon().getName());
         System.out.println(dto.getWeapon().getCategory());
@@ -110,4 +111,54 @@ public class WeaponView {
             );
         }
     }
+
+    public static void updateWeaponFlow(Connection conn, String id){
+
+        WeaponService service = new WeaponService();
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("""
+                1. Endpoint
+                2. JSON
+                """
+        );
+
+        int op = sc.nextInt();
+        sc.nextLine();
+
+        Weapon external = null;
+
+        if(op == 1){
+            external = service.getWeaponFromEndpoint(id);
+        }
+        if(op == 2){
+            external = service.getWeaponFromJson("src/main/resources/weapons.json", id);
+        }
+
+        Weapon db = service.getWeapon(conn, id);
+
+        if(db == null){
+            System.out.println("No existeix en la BD");
+            return;
+        }
+
+        if(external == null){
+            System.out.println("Weapon no trobat a la font externa");
+            return;
+        }
+
+        System.out.println("Vols actualitzar (s/n)");
+
+        String opcio = sc.nextLine();
+
+        if(opcio.equalsIgnoreCase("s")){
+            service.updateWeapon(conn, external, db);
+            System.out.println("Acutalitzat");
+        }
+        else{
+            System.out.println("Actualitzacio cancelada");
+        }
+    }
+
 }
