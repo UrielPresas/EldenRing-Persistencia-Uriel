@@ -11,7 +11,7 @@ import java.sql.Connection;
 
 public class WeaponImporter {
 
-    public static void importar(Connection conn, String json) {
+    public static void importar(Connection conn, String json, boolean overwrite) {
 
         Gson gson = new Gson();
 
@@ -24,7 +24,7 @@ public class WeaponImporter {
 
             Weapon weapon = convertirDTO(dto);
 
-            weaponDAO.inserir(conn, weapon);
+            weaponDAO.inserir(conn, weapon, overwrite);
 
             importarAttacks(conn, dto);
             importarDefences(conn, dto);

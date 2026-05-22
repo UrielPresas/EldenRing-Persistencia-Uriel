@@ -14,7 +14,7 @@ import java.sql.Connection;
 
 public class BossImporter {
 
-    public static void importar(Connection conn, String json){
+    public static void importar(Connection conn, String json, boolean overwrite){
 
         Gson gson = new Gson();
 
@@ -27,7 +27,7 @@ public class BossImporter {
 
             Boss boss = convertirDTO(dto);
 
-            bossDAO.inserir(conn, boss);
+            bossDAO.inserir(conn, boss, overwrite);
 
             importarDrops(conn, dto);
 

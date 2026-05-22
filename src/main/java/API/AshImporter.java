@@ -11,7 +11,7 @@ import java.sql.Connection;
 
 public class AshImporter {
 
-    public static void importar(Connection conn, String json){
+    public static void importar(Connection conn, String json, boolean overwrite){
 
         Gson gson = new Gson();
 
@@ -25,7 +25,7 @@ public class AshImporter {
 
             AshOfWar ash = convertirDTO(dto);
 
-            ashDAO.inserir(conn, ash);
+            ashDAO.inserir(conn, ash, overwrite);
         }
 
         System.out.println("Ashes importades");

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface AshOfWarDAO extends DAO<AshOfWar, String>{
     AshOfWar obtenir(Connection conn, String id);
-
     List<AshOfWar> obtenirTots(Connection conn);
+    void inserir(Connection conn, AshOfWar obj, boolean overwrite);
 }

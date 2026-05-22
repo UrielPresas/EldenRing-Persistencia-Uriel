@@ -34,11 +34,11 @@ public class MenuController {
                     break;
 
                 case 3:
-                    System.out.println("Update (next step)");
+                    updateById(conn);
                     break;
 
                 case 4:
-                    System.out.println("Sync (next step)");
+                    syncData(conn);
                     break;
 
                 case 0:
@@ -67,7 +67,7 @@ public class MenuController {
                     ? EldenRingApiClient.getWeaponsJson()
                     : FileJsonReader.read("src/main/resources/weapons.json");
 
-            WeaponImporter.importar(conn, json);
+            WeaponImporter.importar(conn, json, true);
         }
 
         if(type.equalsIgnoreCase("bosses")){
@@ -76,7 +76,7 @@ public class MenuController {
                     ? EldenRingApiClient.getBossesJson()
                     : FileJsonReader.read("src/main/resources/bosses.json");
 
-            BossImporter.importar(conn, json);
+            BossImporter.importar(conn, json, true);
         }
 
         if(type.equalsIgnoreCase("ashes")){
@@ -85,9 +85,97 @@ public class MenuController {
                     ? EldenRingApiClient.getAshesJson()
                     : FileJsonReader.read("src/main/resources/ashes.json");
 
-            AshImporter.importar(conn, json);
+            AshImporter.importar(conn, json, true);
         }
 
         System.out.println("Import finished");
+    }
+
+    private static void updateById(Connection conn){
+
+        System.out.println("WEAPONS / BOSSES / ASHES?");
+        String type = sc.nextLine();
+
+        if(type.equalsIgnoreCase("WEAPONS")){
+            WeaponView.mostrarAllWeapons(conn);
+        }
+        else if(type.equalsIgnoreCase("BOSSES")){
+            BossView.mostrarAllBosses(conn);
+        }
+        else if(type.equalsIgnoreCase("ASHES")){
+            AshView.mostrarAllAshes(conn);
+        }
+        else{
+            System.out.println("Opció incorrecta");
+        }
+
+        System.out.println("Enter ID:");
+        String id = sc.nextLine();
+
+        if(type.equalsIgnoreCase("weapons")){
+
+            WeaponView.updateWeaponFlow(conn, id);
+        }
+
+        if(type.equalsIgnoreCase("bosses")){
+
+            BossView.updateBossFlow(conn, id);
+        }
+
+        if(type.equalsIgnoreCase("ashes")){
+
+            AshView.updateAshOfWarFlow(conn, id);
+        }
+    }
+
+    private static void syncData(Connection conn){
+
+        System.out.println("WEAPONS / BOSSES / ASHES?");
+        String type = sc.nextLine();
+
+        System.out.println("1. Endpoint");
+        System.out.println("2. JSON");
+
+        int source = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("1. Partial copy");
+        System.out.println("2. Full sync");
+
+        int sync = sc.nextInt();
+        sc.nextLine();
+
+        boolean overwrite = (sync == 2);
+
+        String json = null;
+
+        if(type.equalsIgnoreCase("weapons")){
+
+            json = (source == 1)
+                    ? EldenRingApiClient.getWeaponsJson()
+                    : FileJsonReader.read("src/main/resources/weapons.json");
+
+            WeaponImporter.importar(conn, json, overwrite);
+        }
+
+        if(type.equalsIgnoreCase("bosses")){
+
+            json = (source == 1)
+                    ? EldenRingApiClient.getBossesJson()
+                    : FileJsonReader.read("src/main/resources/bosses.json");
+
+            BossImporter.importar(conn, json, overwrite);
+        }
+
+        if(type.equalsIgnoreCase("ashes")){
+
+            json = (source == 1)
+                    ? EldenRingApiClient.getAshesJson()
+                    : FileJsonReader.read("src/main/resources/ashes.json");
+
+            AshImporter.importar(conn, json, overwrite);
+        }
+
+        System.out.println("Sync completed");
     }
 }

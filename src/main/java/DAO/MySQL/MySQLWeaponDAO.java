@@ -14,17 +14,28 @@ import java.util.List;
 public class MySQLWeaponDAO implements WeaponDAO {
 
     @Override
-    public void inserir(Connection conn, Weapon obj) {
-        String sql = """
-        INSERT INTO weapons (id_weapon, name, img, description, category, weight)
-            VALUES (?, ?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                name = VALUES(name),
-                img = VALUES(img),
-                description = VALUES(description),
-                category = VALUES(category),
-                weight = VALUES(weight)
-        """;
+    public void inserir(Connection conn, Weapon obj, boolean overwrite) {
+
+        String sql = "";
+
+        if(overwrite) {
+            sql = """
+                    INSERT INTO weapons (id_weapon, name, img, description, category, weight)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        ON DUPLICATE KEY UPDATE
+                            name = VALUES(name),
+                            img = VALUES(img),
+                            description = VALUES(description),
+                            category = VALUES(category),
+                            weight = VALUES(weight)
+                    """;
+        }else{ //INSERT IGNORE, basicament ignora els camps que tenen el mateix id llavors es pot fer la copia parcial, mentres que amb el ON KYE UPDATE fa una copia completa
+            sql = """
+                INSERT IGNORE INTO weapons
+                (id_weapon, name, img, description, category, weight)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """;
+        }
 
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -39,6 +50,11 @@ public class MySQLWeaponDAO implements WeaponDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void inserir(Connection conn, Weapon obj) {
+
     }
 
     @Override

@@ -13,18 +13,31 @@ import java.util.List;
 
 public class MySQLAshOfWarDAO implements AshOfWarDAO {
     @Override
-    public void inserir(Connection conn, AshOfWar obj) {
-        String sql = """
-                INSERT INTO ashes_of_war
-                (id_ash, name, img, description, affinity, skill)
-                VALUES (?, ?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE
-                    name = VALUES(name),
-                    img = VALUES(img),
-                    description = VALUES(description),
-                    affinity = VALUES(affinity),
-                    skill = VALUES(skill)
+    public void inserir(Connection conn, AshOfWar obj, boolean overwrite) {
+
+        String sql = "";
+
+        if(overwrite) {
+
+            sql = """
+                    INSERT INTO ashes_of_war
+                    (id_ash, name, img, description, affinity, skill)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE
+                        name = VALUES(name),
+                        img = VALUES(img),
+                        description = VALUES(description),
+                        affinity = VALUES(affinity),
+                        skill = VALUES(skill)
                     """;
+
+        }else {
+            sql = """
+                INSERT IGNORE INTO ashes_of_war
+                (id_ash, name, img, description, affinity, skill)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """;
+        }
 
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -210,5 +223,10 @@ public class MySQLAshOfWarDAO implements AshOfWarDAO {
         }
 
         return ashes;
+    }
+
+    @Override
+    public void inserir(Connection conn, AshOfWar obj) {
+
     }
 }

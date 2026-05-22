@@ -12,19 +12,31 @@ import java.util.List;
 
 public class MySQLBossDAO implements BossDAO {
     @Override
-    public void inserir(Connection conn, Boss obj) {
-        String sql = """
-                INSERT INTO bosses
+    public void inserir(Connection conn, Boss obj, boolean overwrite) {
+
+        String sql = "";
+
+        if(overwrite) {
+
+            sql = """
+                    INSERT INTO bosses
+                    (id_boss, name, img, region, description, location, health_points)
+                    VALUES(?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE
+                        name = VALUES(name),
+                        img = VALUES(img),
+                        region = VALUES(region),
+                        description = VALUES(description),
+                        location = VALUES(location),
+                        health_points = VALUES (health_points)
+                    """;
+        }else{
+            sql = """
+                INSERT IGNORE INTO bosses
                 (id_boss, name, img, region, description, location, health_points)
-                VALUES(?, ?, ?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE
-                    name = VALUES(name),
-                    img = VALUES(img),
-                    region = VALUES(region),
-                    description = VALUES(description),
-                    location = VALUES(location),
-                    health_points = VALUES (health_points)
+                    VALUES(?, ?, ?, ?, ?, ?, ?)
                 """;
+        }
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -214,5 +226,10 @@ public class MySQLBossDAO implements BossDAO {
         }
 
         return bosses;
+    }
+
+    @Override
+    public void inserir(Connection conn, Boss obj) {
+
     }
 }
