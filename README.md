@@ -318,6 +318,3 @@ El projecte ha servit principalment per treballar:
 * sincronització
 * consistència de dades
 * desacoblament entre capes
-
-```
-```
