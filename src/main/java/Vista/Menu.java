@@ -20,7 +20,7 @@ public class Menu {
     }
 
     public static int readOption(){
-        return sc.nextInt();
+        return Integer.parseInt(sc.nextLine());
     }
 
     public static void dbData(Connection conn){

@@ -21,7 +21,6 @@ public class MenuController {
             Menu.showMenu();
 
             int op = Menu.readOption();
-            sc.nextLine();
 
             switch(op){
 
@@ -56,8 +55,7 @@ public class MenuController {
         System.out.println("1. Endpoint");
         System.out.println("2. JSON");
 
-        int op = sc.nextInt();
-        sc.nextLine();
+        int op = Integer.parseInt(sc.nextLine());
 
         String json = null;
 
