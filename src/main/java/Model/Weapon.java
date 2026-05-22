@@ -1,5 +1,6 @@
 package Model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Weapon {
@@ -9,6 +10,7 @@ public class Weapon {
     private String description;
     private String category;
     private double weight;
+    private Timestamp last_update;
 
     private List<WeaponAttack> attacks;
     private List<WeaponDefence> defences;
@@ -62,6 +64,14 @@ public class Weapon {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public Timestamp getLast_update() {
+        return last_update;
+    }
+
+    public void setLast_update(Timestamp last_update) {
+        this.last_update = last_update;
     }
 
     @Override

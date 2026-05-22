@@ -46,6 +46,8 @@ public class WeaponView {
                     w.getId_weapon()
                             + " | " +
                             w.getName()
+                            + " | " +
+                            w.getLast_update()
             );
         }
     }

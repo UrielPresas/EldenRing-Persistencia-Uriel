@@ -141,6 +141,10 @@ public class MySQLWeaponDAO implements WeaponDAO {
                         rs.getDouble("weight")
                 );
 
+                weapon.setLast_update(
+                        rs.getTimestamp("last_update")
+                );
+
                 return weapon;
             }
 

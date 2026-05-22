@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "count": 2,
+  "total": 2,
+  "data": [
+    {
+      "id": "boss001",
+      "name": "Margit, The Fell Omen",
+      "image": "https://example.com/margit.png",
+      "description": "A powerful omen boss.",
+      "location": "Stormveil Castle",
+      "region": "Limgrave",
+      "healthPoints": "4174",
+      "drops": [
+        "Talisman Pouch",
+        "20,000 Runes"
+      ]
+    },
+    {
+      "id": "boss002",
+      "name": "Tree Sentinel",
+      "image": "https://example.com/tree.png",
+      "description": "Golden knight on horseback.",
+      "location": "Limgrave",
+      "region": "Limgrave",
+      "healthPoints": "2887",
+      "drops": [
+        "Golden Halberd"
+      ]
+    }
+  ]
+}

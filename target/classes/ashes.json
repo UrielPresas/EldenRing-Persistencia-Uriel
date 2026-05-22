@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "count": 2,
+  "total": 2,
+  "data": [
+    {
+      "id": "ash001",
+      "name": "Ash of War: Bloody Slash",
+      "image": "https://example.com/bloodyslash.png",
+      "description": "Adds Blood affinity and skill.",
+      "affinity": "Blood",
+      "skill": "Bloody Slash"
+    },
+    {
+      "id": "ash002",
+      "name": "Ash of War: Determination",
+      "image": "https://example.com/determination.png",
+      "description": "Temporarily boosts attack power.",
+      "affinity": "Standard",
+      "skill": "Determination"
+    }
+  ]
+}

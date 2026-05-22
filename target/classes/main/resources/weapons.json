@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "count": 2,
+  "total": 2,
+  "data": [
+    {
+      "id": "weapon001",
+      "name": "Moonveil",
+      "image": "https://example.com/moonveil.png",
+      "description": "Katana imbued with magic.",
+      "category": "Katana",
+      "weight": 6.5,
+      "attack": [
+        {
+          "name": "Phy",
+          "amount": 73
+        },
+        {
+          "name": "Mag",
+          "amount": 87
+        }
+      ],
+      "defence": [
+        {
+          "name": "Phy",
+          "amount": 36
+        },
+        {
+          "name": "Mag",
+          "amount": 31
+        }
+      ],
+      "scalesWith": [
+        {
+          "name": "Int",
+          "scaling": "B"
+        }
+      ],
+      "requiredAttributes": [
+        {
+          "name": "Dex",
+          "amount": 18
+        },
+        {
+          "name": "Int",
+          "amount": 23
+        }
+      ]
+    },
+    {
+      "id": "weapon002",
+      "name": "Claymore",
+      "image": "https://example.com/claymore.png",
+      "description": "Classic greatsword.",
+      "category": "Greatsword",
+      "weight": 9.0,
+      "attack": [],
+      "defence": [],
+      "scalesWith": [],
+      "requiredAttributes": []
+    }
+  ]
+}
